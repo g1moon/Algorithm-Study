@@ -1,0 +1,54 @@
+'''
+6064. 카잉달력
+124752kb, 452ms
+
+수 하나하나 증가해서 구했다가 시간초과남..
+그래서 <m:n>이 되는 번째수는 n,m의 최대공배수라는걸 찾아내고 번째가 최대공배수가 될때까지 돌려줌
+x,y 각자 따로 돌리면 안되고(시간초과남 그럼)
+x돌리는 반복문 안에서 y도 순차적으로 돌려줘야한다,,그러다가 둘이 일치하면 정답...
+
+Python3로 제출하면 시간초관데 pypy3으로 제출하니까 됨..백준님도 pypy3로 제출하는듯함..ㅎㅎ..
+'''
+
+import sys
+t = int(sys.stdin.readline())
+for i in range(t):
+    m,n,x,y = map(int,sys.stdin.readline().strip().split())
+
+    small = min(m,n)
+    large = max(m,n)
+
+    #최대공약수 구하기
+    for i in range(1,small+1):
+        if small % i == 0 and large % i == 0:
+            gcd = i
+
+    #최소공배수 구하기
+    lcm = gcd * (n // gcd) * (m // gcd)
+
+    #x1,y1 = x,y가 될 때 몇번째 값인지
+    x1 = x
+    y1 = y
+
+    i = 1
+    j = 1
+    ans = -1
+    
+    # x가 될 때가 몇번째 값인지(=x1) 순서대로 구하기
+    # m 과 n의 최소공배수가 <m:n>가 되는 해
+    while(x1 <= lcm):
+        # 각 x1을 구할때마다 y1도 구해준다
+        while (y1 <= x1):
+            if y1 == x1:
+                ans = y1
+                break
+            y1 = (j * n) + y
+            j += 1
+
+        if ans != -1:
+            break
+
+        x1 = (i * m) + x
+        i += 1
+
+    print(ans)

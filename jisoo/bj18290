@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+
+'''
+18290.NM과 K (1)
+128432 kb, 7396ms
+
+브루트포스 완전탐색
+재귀이용해서 모든 경우의 수 구해줌
+ans 초기화 어떻게 해줄지 몰라서 global 변수 사용안하고 ans 배열에 모든 sum값 넣어줘서 마지막에 max(sum) 했는데 메모리 초과뜸..
+백준 선생님은 ans를 -2147483647으로 초기화했는데 왜 그렇게 했는지 이해못함,,,,,
+기문님 코드 참고해서 float('-inf')는 float형의 음의 무한대라는걸 알게돼서 성공했습니다! 감사합니다 ٩꒰｡•◡•｡꒱۶ 
+
+'''
+
+import sys
+
+dx = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
+
+ans = float('-inf')
+
+def cntNum(cnt,sum):
+    if cnt == k:
+        global ans
+        ans = max(ans,sum)
+        return
+
+    for i in range(n):
+        for j in range(m):
+            if visited[i][j] == 0:
+                direction4 = True
+                for z in range(4):
+                    nx = i + dx[z]
+                    ny = j + dy[z]
+                    # 4방향 중 어느것이라도 방문한적 있으면 안됨
+                    if 0 <= nx < n and 0 <= ny < m:
+                        if visited[nx][ny] == 1:
+                            direction4 = False
+                if direction4 == True:
+                    visited[i][j] = 1
+                    cntNum(cnt+1,sum+matrix[i][j])
+                    visited[i][j] = 0
+
+
+
+n,m,k = map(int,sys.stdin.readline().split())
+matrix = []
+for i in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().split())))
+
+visited = [[0 for _ in range(m)] for _ in range(n)]
+
+cntNum(0,0)
+print(ans)
