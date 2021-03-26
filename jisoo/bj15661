@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+
+'''
+15661. 링크와 스타트
+198468kb, 1732ms
+
+1명부터 n-1명까지 팀의 인원이 될 수 있다.
+그러면 총 4명이면 '스타트팀'이 1명일 경우 부터 2명(n//2)일 경우까지 구해주고 '링크팀'은 전체인원 - 스타트팀
+set 사용 해서 마이너스 해주기
+'''
+
+import sys
+from itertools import combinations
+
+n = int(sys.stdin.readline())
+matrix = []
+l = []
+for i in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().split())))
+    l.append(i)
+
+dif = 3800
+for i in range(1,n//2+1):
+    for z in list(combinations(l, i)):
+        team1 = set(z)
+        team2 = set(l) - team1
+        # print(team1, team2)
+
+        team1 = list(team1)
+        team2 = list(team2)
+
+        team1_s = 0
+        team2_s = 0
+
+        for i in range(len(team1)):
+            for j in range(i):
+                team1_s += (matrix[team1[i]][team1[j]] + matrix[team1[j]][team1[i]])
+
+        for i in range(len(team2)):
+            for j in range(i):
+                team2_s += (matrix[team2[i]][team2[j]] + matrix[team2[j]][team2[i]])
+
+        d = abs(team1_s - team2_s)
+        if dif > d:
+            dif = d
+
+print(dif)

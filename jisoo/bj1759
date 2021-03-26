@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+
+'''
+28776kb , 68ms
+콤비네이션으로 간단하게 구현
+'''
+
+import sys
+from itertools import combinations
+
+ip = sys.stdin.readline
+l,c = list(map(int,ip().split()))
+
+value = sorted(list(ip().split()))
+comb = list(map(''.join,combinations(value,l)))
+
+rst = []
+for i in comb:
+        c = 0
+        v = 0
+        for j in i:
+                if j == 'a' or j == 'e' or j == 'i' or j == 'o' or j == 'u':
+                        c+=1
+                else:
+                        v+=1
+
+
+        if c >= 1 and v >= 2:
+                print(i)
