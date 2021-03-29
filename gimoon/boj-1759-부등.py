@@ -6,7 +6,7 @@ input = sys.stdin.readline
 '''
 # -----솔루션--------------------------
 - 1. ck 함수 내 조건 만족하고 
-- 2. used에 없으면 
+- 2. used에 없으면   
 '''
 
 def ck(num1, num2,opt):
