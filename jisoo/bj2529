@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+
+'''
+2529. 부등호
+126824kb, 276ms
+
+브루트포스
+
+재귀(dfs)와 백트래킹
+백트래킹할때 주의할점은 visited뿐만 아니라 누적된 s값도 백트래킹 해줘야함..
+'''
+import sys
+def dfs(n,cnt,s):
+    if cnt == len(bdh):
+        rst.append(s)
+        return
+
+    if bdh[cnt] == '<':
+        for i in range(n+1,10):
+            if visited[i] == 0:
+                origin_s = s
+                s += str(i)
+                visited[i] = 1
+                dfs(i,cnt+1,s)
+                visited[i] = 0
+                s = origin_s
+
+    elif bdh[cnt] == '>':
+        for i in range(0,n):
+            if visited[i] == 0:
+                origin_s = s
+                s += str(i)
+                visited[i] = 1
+                dfs(i,cnt+1,s)
+                visited[i] = 0
+                s = origin_s
+
+
+k = int(sys.stdin.readline())
+
+bdh = list(sys.stdin.readline().strip().split())
+
+rst = []
+for i in range(0,10):
+    # 탐색시작, 재귀
+    visited = [0 for _  in range(10)]
+
+    s = str(i)
+    visited[i] = 1
+    dfs(i,0,s)
+    visited[i] = 0
+
+print(max(rst))
+print(min(rst))
