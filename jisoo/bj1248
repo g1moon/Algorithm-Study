@@ -1,0 +1,52 @@
+#!/usr/bin/python3
+
+'''
+1248. 맞춰봐
+28776kb, 7308ms
+'''
+
+def check(index):
+    # 뒤부터 누적해주는거 중요..!!
+    sum = 0
+    for i in range(index,-1,-1):
+        sum += ans[i]
+        if s[i][index] == 0:
+            if sum != 0:
+                return False
+        elif s[i][index] < 0:
+            if sum >= 0:
+                return False
+        elif s[i][index] > 0:
+            if sum <= 0:
+                return False
+    return True
+
+def go(index):
+    if index == n:
+        return True
+    if s[index][index] == 0:
+        ans[index] = 0
+        return check(index) and go(index + 1)
+    for i in range(1,11):
+        ans[index] = i * s[index][index]
+        if check(index) and go(index + 1):
+            return True
+    return False
+
+n = int(input())
+ip = input()
+s = [[0 for _ in range(n)] for _ in range(n)]
+ans = [0] * n
+id = 0
+for i in range(n):
+    for j in range(i,n):
+        if ip[id] == '+':
+            s[i][j] = 1
+        elif ip[id] == '-':
+            s[i][j] = -1
+        else:
+            s[i][j] = 0
+        id += 1
+
+go(0)
+print(' '.join(map(str,ans)))
