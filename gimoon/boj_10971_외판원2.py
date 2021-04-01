@@ -5,8 +5,6 @@
 import sys 
 input = sys.stdin.readline
 '''
-- 이유를 모르겠다... 틀렸다고 나온다. 
-- 순회가 안되는 경우가 없는데 -> 어느 부분에서 틀린건지 모르겠다.
 #-------문제설명-----------
 - 한 외판원이 어느 한 도시에서 출발 -> (N개의 도시)를 모두 거쳐 -> 다시 원래의 도시로 돌아오는 
 - 한번 갔던 도시로는 갈 수 없음(맨 마지막에 출발 도시로 돌아오는 것 예외)
@@ -21,22 +19,26 @@ ck = [False] * n
 visited = [] 
 ans = float('inf')
 
-def dfs(cnt,start, cur, cost):
-    global ans
+def dfs(start, cnt, cur, cost):
+    global ans 
     
     if cnt == n:
-        ans = min(ans, cost+mat[cur][start])
+        if mat[cur][start] == 0:
+            return 
+        ans = min(ans, cost + mat[cur][start])
         return 
     
     for i in range(n):
         if ck[i] or mat[cur][i] == 0:
             continue 
-
-        ck[i] = True 
-        dfs(cnt+1, start, i, cost+mat[cur][i])
-        ck[i] = False 
-
+        
+        ck[i] = True
+        dfs(start, cnt+1, i, cost+mat[cur][i])
+        ck[i] = False
+        
 for i in range(n):
-    dfs(0,i, i,0)
-    
+    ck[i] = True
+    dfs(i, 1, i, 0)
+    ck[i] = False
+        
 print(ans)
