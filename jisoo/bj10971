@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+"""
+10971.외판원순회2
+28776kb, 7488ms
+
+브루트포스, 재귀
+차이를 최대로 문제랑 비슷
+첫번째 도시로 돌아갈 경우도 세줘야함
+"""
+import sys
+
+min = float('inf')
+def go(s,cnt,sum):
+    global min
+    if cnt == n:
+        # 마지막으로 첫 시작점으로 가기
+        if w[s][start] != 0:
+            sum += w[s][start]
+            if min > sum:
+                min = sum
+        return
+    for i in range(n):
+        if visited[i] == 0 and w[s][i] != 0:
+            origin_sum = sum
+            sum += w[s][i]
+            visited[i] = 1
+            go(i,cnt+1,sum)
+            visited[i] = 0
+            sum = origin_sum
+
+n = int(input())
+w = []
+for i in range(n):
+      w.append(list(map(int,sys.stdin.readline().split())))
+
+for i in range(n):
+    visited = [0 for _ in range(n)]
+    start = i
+    visited[i] = 1
+    go(i,1,0)
+
+print(min)
