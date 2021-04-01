@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+
+"""
+6603.로또
+출력형식이잘못되었습니다 뜨는데 왠지 모르겠음 ㅠㅠ..
+테스크케이스마다 한줄띄어쓰기도 했는데 왜 그럴까요...
+"""
+from itertools import combinations
+import sys
+
+while True:
+    ip = input()
+
+    if ip == '0':
+        break
+
+    l = list(ip.split())
+    del l[0]
+
+    comb = list(map(' '.join, combinations(l,6)))
+    for i in comb:
+        print(i)
+    print("\n")
