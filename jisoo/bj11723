@@ -1,0 +1,39 @@
+#!/usr/bin/python
+'''
+11723. 집합
+비트마스크 연습 기초문제
+
+비트마스크: 집합을 정수로 표현
+메모리 차지 적게함(집합전체를 하나의 정수로 표현하니까)
+검사,추가, 제거, toggle 시 시간복잡도 N
+
+느낀점:
+all일 경우 왜 저런 연산이 나오는지 모르겠삼
+pypy3으로 제출하면 메모리 초과남 python3으로 제출해야함
+input()으로 하면 시간초과 sys.stdin.readline()사용하도록
+'''
+import sys
+
+m = int(sys.stdin.readline())
+s = 0
+for i in range(m):
+    ip = sys.stdin.readline().strip()
+    if ip == 'all':
+        s = (1<<20)-1
+        continue
+    elif ip == 'empty':
+        s = 0
+        continue
+    cmd,n = ip.split()
+    n = int(n)
+    if cmd == 'add':
+        s = s|(1<<n-1)
+    elif cmd == 'remove':
+        s = s&~(1 << n-1)
+    elif cmd == 'check':
+        if s&(1<<n-1) != 0:
+            print(1)
+        else:
+            print(0)
+    elif cmd == 'toggle':
+        s = s^(1<<n-1)
