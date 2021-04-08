@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+'''
+11727. 2*n 타일링 2
+121220kb, 120ms
+
+문제잘읽기! 나머지연산 맨날 까먹어..
+'''
+n = int(input())
+
+dp = [1 for _ in range(n+1)]
+
+for i in range(2,n+1):
+    dp[i] = dp[i-1] + 2*dp[i-2]
+print(dp[n]%10007)

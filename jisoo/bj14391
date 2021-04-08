@@ -1,0 +1,42 @@
+#!/usr/bin/python3
+
+'''
+14391.종이조각
+
+123440 156
+'''
+
+import sys
+
+maxx = 0
+
+n,m = map(int,sys.stdin.readline().split())
+
+matrix = []
+for i in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().strip())))
+
+for i in range(1<<(n*m)):
+    total_sum = 0
+    #가로
+    for a in range(n):
+        s = 0
+        for b in range(m):
+            if i&(1<<(a*m+b)) != 0:
+                s = s * 10 + matrix[a][b]
+            else:
+                total_sum += s
+                s = 0
+        total_sum += s
+    #세로
+    for a in range(m):
+        s = 0
+        for b in range(n):
+            if i&(1<<(b*m+a)) == 0:
+                s = s * 10 + matrix[b][a]
+            else:
+                total_sum += s
+                s = 0
+        total_sum += s
+    maxx = max(maxx, total_sum)
+print(maxx)
