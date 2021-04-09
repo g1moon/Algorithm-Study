@@ -1,0 +1,21 @@
+#!/usr/bin/python3
+"""
+15998. 123 더하기3
+130816kb, 152ms
+
+python3으로 제출하면 시간초과 pypy3으로 
+"""
+t = int(input())
+
+dp = [0 for _ in range(1000001)]
+
+dp[1] = 1
+dp[2] = 2
+dp[3] = 4
+for i in range(4,1000001):
+    for j in range(1,4):
+        dp[i] += dp[i-j] % 1000000009
+
+for i in range(t):
+    n = int(input())
+    print(dp[n] % 1000000009)
