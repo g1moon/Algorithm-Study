@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+"""
+11057. 오르막수
+123304kb, 124ms
+"""
+n = int(input())
+
+dp = [[0 for _ in range(10)] for _ in range(n)]
+for i in range(10):
+    dp[0][i] = 1
+
+for i in range(1,n):
+    for z in range(10):
+        for j in range(0,z+1):
+            dp[i][z] += dp[i-1][j] % 10007
+print(sum(dp[n-1]) % 10007)
