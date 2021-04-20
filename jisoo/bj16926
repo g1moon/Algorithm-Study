@@ -1,0 +1,61 @@
+#!/usr/bin/python
+
+import sys
+import copy
+n,m,r = map(int,sys.stdin.readline().split())
+
+matrix = []
+for i in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().split())))
+
+
+"""
+16926.배열돌리기1
+225948kb, 1612ms
+시뮬레이션
+어찌저지 풀긴했는데 머리아프다,,이따 집에와서 강의를 들어야겠다
+"""
+after_matrix = [[0 for _ in range(m)] for _ in range(n)]
+for i in range(r):
+
+    # 왼쪽이동
+    start = m-1
+    end = 1
+    for a in range(n//2):
+        for c in range(start,end-1,-1):
+            after_matrix[a][c-1] = matrix[a][c]
+        start -= 1
+        end += 1
+  #  print(after_matrix)
+
+    # 오른쪽이동
+    start = 0
+    end = m
+    for a in range(n-1,n//2-1,-1):
+        for c in range(start,end-1):
+            after_matrix[a][c+1] = matrix[a][c]
+        start+=1
+        end -= 1
+ #   print(after_matrix)
+    # 위로이동
+    start = n-1
+    end = 0
+    for a in range(m - 1, m // 2 - 1, -1):
+        for c in range(start, end, -1):
+            after_matrix[c-1][a] = matrix[c][a]
+        start -= 1
+        end += 1
+#print(after_matrix)
+    # 아래로 이동
+    start = 0
+    end = n
+    for a in range(0, m // 2):
+        for c in range(start, end-1):
+            after_matrix[c+1][a] = matrix[c][a]
+        start += 1
+        end -= 1
+
+    matrix = after_matrix
+    after_matrix = [[0 for _ in range(m)] for _ in range(n)]
+for i in range(len(matrix)):
+    print(' '.join(map(str,matrix[i])))
