@@ -1,0 +1,118 @@
+#!/usr/bin/python3
+
+"""
+16935. 배열돌리기3
+141968kb, 556ms
+시뮬레이션 복잡쓰...
+"""
+import sys
+import copy
+
+def change1():
+    # 1번 : 상하 반전
+    n = len(init_matrix)
+    m = len(init_matrix[0])
+    after_matrix = []
+    for i in range(n):
+        after_matrix.append(init_matrix[n-i-1])
+    return after_matrix
+def change2():
+    # 좌우 반전
+    after_matrix = []
+    n = len(init_matrix)
+    m = len(init_matrix[0])
+    for i in range(n): #n
+        l = []
+        for j in range(m):#m
+           l.append(init_matrix[i][m-j-1])
+        after_matrix.append(l)
+    return after_matrix
+def change3():
+    # 오른쪽으로 90도 뒤집기
+    after_matrix = []
+    n = len(init_matrix)
+    m = len(init_matrix[0])
+    for i in range(m): #8
+        l = []
+        for j in range(n):
+            l.append(init_matrix[n-j-1][i])
+        after_matrix.append(l)
+    return after_matrix
+def change4():
+    # 왼쪽으로 90도
+    after_matrix = []
+    n = len(init_matrix)
+    m = len(init_matrix[0])
+    #print(init_matrix)
+    for i in range(m-1,-1,-1):  # 8
+        l = []
+        for j in range(n):
+            l.append(init_matrix[j][i])
+        after_matrix.append(l)
+    return after_matrix
+def change5():
+    # 4등분 해준 후 시계방향으로 한칸씩 옮기기
+    after_matrix = copy.deepcopy(init_matrix)
+    n = len(init_matrix)
+    m = len(init_matrix[0])
+    for i in range(n//2):
+        for j in range(m//2):
+            after_matrix[i][j + m//2] = init_matrix[i][j]
+    for i in range(n//2):
+        for j in range(m//2,m):
+            after_matrix[i + n//2][j] = init_matrix[i][j]
+    for i in range(n//2,n):
+        for j in range(m//2,m):
+            after_matrix[i][j-m//2] = init_matrix[i][j]
+    for i in range(n//2,n):
+        for j in range(m//2):
+            after_matrix[i-n//2][j] = init_matrix[i][j]
+    return after_matrix
+
+def change6():
+    # 4등분 해준 후 반시계방향으로 한칸씩 옮기기
+    after_matrix = copy.deepcopy(init_matrix)
+    n = len(init_matrix)
+    m = len(init_matrix[0])
+    for i in range(n//2):
+        for j in range(m//2):
+            after_matrix[i + n//2][j] = init_matrix[i][j]
+    for i in range(n//2):
+        for j in range(m//2,m):
+            after_matrix[i][j - m//2] = init_matrix[i][j]
+    for i in range(n//2,n):
+        for j in range(m//2,m):
+            after_matrix[i-n//2][j] = init_matrix[i][j]
+    for i in range(n//2,n):
+        for j in range(m//2):
+            after_matrix[i][j+m//2] = init_matrix[i][j]
+    return after_matrix
+
+n,m,r = list(map(int,sys.stdin.readline().split()))
+
+init_matrix = []
+for i in range(n):
+    init_matrix.append(list(map(int,sys.stdin.readline().strip().split())))
+
+case = list(map(int,sys.stdin.readline().split()))
+
+for i in case:
+    if i == 1:
+        init_matrix = change1()
+    elif i == 2:
+        init_matrix = change2()
+    elif i == 3:
+        init_matrix = change3()
+    elif i == 4:
+        init_matrix = change4()
+    elif i == 5:
+        init_matrix = change5()
+    elif i == 6:
+        init_matrix = change6()
+for i in range(len(init_matrix)):
+    print(' '.join(map(str,init_matrix[i])))
+#print(init_matrix)
+
+
+
+
