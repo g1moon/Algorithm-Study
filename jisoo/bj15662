@@ -1,0 +1,128 @@
+#!/usr/bin/python3
+
+'''
+내가 푼거,,
+백준씨는 어디로 돌릴지 방향을 모두 저장한 후 한번에 돌렸고 나는 오른쪽,왼쪽 쭉 갈때 바로바로 바꿔줌 그리고 마지막엔 초기 톱니바퀴 돌려줌
+근데 예제 5번이 안되는것 ㅠ
+왤까......도저히 모르겠삼.........
+
+#!/usr/bin/python3
+import sys
+
+def change(i,d):
+    if d == 1:
+        # 반시계방향으로 바꿔주기
+        temp = wh[i][0]
+        for z in range(7):
+            wh[i][z] = wh[i][z + 1]
+        wh[i][7] = temp
+        d = -1
+    else:
+        # 시계방향으로 바꿔주기
+        temp = wh[i][7]
+        for z in range(7,0,-1):
+            wh[i][z] = wh[i][z - 1]
+        wh[i][0] = temp
+        d = 1
+    return d
+
+t = int(sys.stdin.readline())
+
+wh = []
+for i in range(t):
+    wh.append(list(map(int,list(sys.stdin.readline().strip()))))
+
+k = int(sys.stdin.readline())
+for _ in range(k):
+    n,d = map(int,sys.stdin.readline().split())
+    n = n-1
+    # 1 시계방향(오른쪽) , -1 반시계방향(왼쪽)
+    # n극 0, s극 1
+    # 현재점 기준으로 오른쪽 쭉 왼쪽 쭉
+    change_d = d
+    for i in range(n+1,t):
+        # 1.오른쪽 따져주기
+        if wh[i-1][2] != wh[i][6]:
+            # 오른쪽 톱니바퀴 돌려주기
+            change_d = change(i,change_d)
+        else:
+            break
+    change_d = d
+    for i in range(n-1,-1,-1):
+        # 2.왼쪽 따져주기
+        if wh[i+1][6] != wh[i][2]:
+            # 왼쪽 톱니바퀴 돌려주기
+            change_d = change(i,change_d)
+        else:
+            break
+
+    # 초기 톱니바퀴 바꿔주기
+    if d == -1:
+        # 반시계방향으로 바꿔주기
+        temp = wh[n][0]
+        for z in range(7):
+            wh[n][z] = wh[n][z + 1]
+        wh[n][7] = temp
+    else:
+        temp = wh[n][7]
+        for z in range(7, 0, -1):
+            wh[n][z] = wh[n][z - 1]
+        wh[n][0] = temp
+
+total = 0
+for i in range(t):
+    if wh[i][0] == 1:
+        total += 1
+print(total)
+
+'''
+
+t = int(input())
+wh = [list(input()) for _ in range(t)]
+k = int(input())
+
+for _ in range(k):
+    n,dir = map(int,input().split())
+    n -= 1
+
+    d = [0] * t
+    d[n] = dir
+
+    for i in range(n+1,t):
+        # 1.오른쪽 따져주기
+        if wh[i-1][2] != wh[i][6]:
+            # 어느방향인지 저장
+            d[i] = -d[i-1]
+        else:
+            break
+
+    for i in range(n-1,-1,-1):
+        # 2.왼쪽 따져주기
+        if wh[i+1][6] != wh[i][2]:
+            # 어느방향인지 저장
+            d[i] = -d[i+1]
+        else:
+            break
+
+    for i in range(t):
+        if d[i] == 0:
+            # 안움직임
+            continue
+        if d[i] == 1:
+            #시계방향
+            temp = wh[i][7]
+            for j in range(7, 0, -1):
+                wh[i][j] = wh[i][j - 1]
+            wh[i][0] = temp
+        elif d[i] == -1:
+            #반시계방향
+            temp = wh[i][0]
+            for j in range(0, 7):
+                wh[i][j] = wh[i][j + 1]
+            wh[i][7] = temp
+
+ans = 0
+for i in range(t):
+    if wh[i][0] == '1':
+        ans += 1
+print(ans)
