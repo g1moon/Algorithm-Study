@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+import sys
+
+c = [[False]*101 for _ in range(101)]
+dx = [0,-1,0,1]
+dy = [1,0,-1,0]
+def curve(d,gen):
+    """
+    1. 전세대 방향 반대로
+    2. 시계반대방향으로 돌려주기
+    """
+    ans = [d]
+    for g in range(1,gen+1):
+        temp = ans[:]
+
+        # 거꾸로
+        temp = temp[::-1]
+
+        # 시계 반대 방향
+        for i in range(len(temp)):
+            temp[i] = (temp[i]+1) % 4
+        ans += temp
+    return ans
+
+n = int(sys.stdin.readline())
+for _ in range(n):
+    y,x,d,g = map(int,sys.stdin.readline().split())
+
+    dlist = curve(d,g)
+
+    c[x][y] = True
+    for d in dlist:
+        x += dx[d]
+        y += dy[d]
+        c[x][y] = True
+
+total = 0
+for i in range(100):
+    for j in range(100):
+        if c[i][j] and c[i][j+1] and c[i+1][j] and c[i+1][j+1]:
+            total += 1
+print(total)
