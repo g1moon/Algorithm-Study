@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+
+"""
+123520kb,148ms
+시뮬레이션
+"""
+
+import sys
+
+dx = [1,-1,0,0]
+dy = [0,0,1,-1]
+
+def check(x,y):
+    # 현재 내 위치에 있는 수가 상하좌우 블럭의 수보다 얼마나 많은지 확인해보기
+    # 상하좌우에 아무것도 없으면 그쪽면은 현재 위치의 크기만큼 더하기
+    now_n = matrix[x][y]
+    sum = 0
+
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+
+        if 0 <= nx < n and 0 <= ny < m:
+            if matrix[nx][ny] < now_n:
+                sum += (now_n - matrix[nx][ny])
+        else:
+            sum += now_n
+    return sum
+n,m = map(int,sys.stdin.readline().split())
+
+matrix = []
+for _ in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().split())))
+
+# 양 위아래 * 2
+ans = 2*n*m
+for i in range(n):
+    for j in range(m):
+        ans += check(i,j)
+print(ans)
