@@ -1,0 +1,32 @@
+from collections import deque
+def bfs(n):
+
+        while dq:
+                pop = dq.pop()
+##              print('pop값:' , pop, " " ,visited[pop])        
+                if pop == k:
+                        print(visited[pop])
+                        break;
+                if pop+1 <= 100000:
+                        if visited[pop+1] == 0:
+                                dq.appendleft(pop+1)
+                                visited[pop+1] = visited[pop] + 1
+                if pop-1 >= 0:
+                        if visited[pop-1] == 0:
+                                dq.appendleft(pop-1)
+                                visited[pop-1] = visited[pop] + 1
+                if pop*2 <= 100000:
+                        if visited[pop*2] == 0:
+                                dq.appendleft(pop*2)
+                                visited[pop*2] = visited[pop] + 1
+
+
+
+n,k = list(map(int,input().split()))
+
+visited = [0 for i in range(0,100001)]
+
+
+dq = deque()
+dq.appendleft(n)
+bfs(n)
