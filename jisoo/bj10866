@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+from collections import deque
+import sys
+n = int(sys.stdin.readline())
+
+dq = deque()
+for _ in range(n):
+    cmd = sys.stdin.readline().strip()
+    if cmd.startswith("push_front"):
+        dq.appendleft(int(cmd.split()[1]))
+    elif cmd.startswith("push_back"):
+        dq.append(int(cmd.split()[1]))
+    elif cmd == "pop_front":
+        if dq:
+            pop = dq.popleft()
+            print(pop)
+        else:
+            print(-1)
+    elif cmd == "pop_back":
+        if dq:
+            pop = dq.pop()
+            print(pop)
+        else:
+            print(-1)
+    elif cmd == "size":
+        print(len(dq))
+    elif cmd == "empty":
+        if dq:
+            print(0)
+        else:
+            print(1)
+    elif cmd == "front":
+        if dq:
+            pop = dq.popleft()
+            print(pop)
+            dq.appendleft(pop)
+        else:
+            print(-1)
+    elif cmd == "back":
+        if dq:
+            pop = dq.pop()
+            print(pop)
+            dq.append(pop)
+        else:
+            print(-1)
