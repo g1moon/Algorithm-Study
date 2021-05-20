@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+import sys
+
+"""
+13023. ABCDE
+
+"""
+
+
+def check(f,cnt):
+    global ans
+
+    if cnt == 4:
+        ans = 1
+        return
+
+    for i in ll[f]:
+        if visited[i] == 0:
+            visited[i] = 1
+            check(i,cnt+1)
+            visited[i] = 0
+
+input = sys.stdin.readline
+n,m = map(int,input().split())
+ll = [[] for _ in range(n)]
+visited = [0 for _ in range(n)]
+ans = 0
+
+#노드가 서로 이어지는지 확인하기
+# linked list
+for i in range(m):
+    a,b = map(int,input().split())
+    ll[a].append(b)
+    ll[b].append(a)
+
+for i in range(n):
+    visited[i] = 1
+    check(i,0)
+    visited[i] = 0
+
+if ans == 1:
+    print(1)
+else:
+    print(0)
