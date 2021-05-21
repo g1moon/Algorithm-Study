@@ -4,7 +4,7 @@ from collections import deque
 n, m = map(int, input().split())
 adjLst = [[] for _ in range(n+1)]
 ckLst = [-1] * (n+1)
-ans = 0
+ans = 0 
 for _ in range(m):
     a, b = map(int, input().split())
     adjLst[a].append(b)
