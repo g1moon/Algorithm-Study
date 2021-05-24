@@ -1,0 +1,42 @@
+#!/usr/bin/python3
+"""
+14226. 이모티콘
+135560,160
+"""
+from collections import deque
+import sys
+def bfs():
+    dq = deque()
+    dq.appendleft([1,1,1])
+    while dq:
+        total_pop = dq.pop()
+
+        pop = total_pop[0]
+        ans = total_pop[1]
+        clip = total_pop[2]
+
+        if pop == s:
+            print(ans)
+            break
+
+        """
+        3가지 경우의 수를 모두 해보기
+        주의: 
+        삭제를 하기 전에 저장되어있던 클립보드를 화면에 붙여넣기 할 수 있음
+        따라서 2,3의 경우는 clip은 따로 저장해줘야한다.
+        
+        메모리초과! visited 체크해주기?
+        """
+
+        if visited[pop] == 0 and pop >= 1:
+            dq.appendleft([pop,ans+1,pop])
+            #dq.appendleft([pop+clip,ans+1,clip])
+            dq.appendleft([pop-1,ans+1,clip])
+            visited[pop] = 1
+
+        # 요건 방문해줬든 말든 append되는 값이 clip에 따라 달라지기 때문에 항상 해줘야함
+        dq.appendleft([pop + clip, ans + 1, clip])
+
+s = int(sys.stdin.readline())
+visited = [0 for _ in range(s**2)]
+bfs()
