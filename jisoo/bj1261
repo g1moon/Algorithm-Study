@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+import sys
+from collections import deque
+"""
+1261.알고스팟
+최소의 벽을 부수기, bfs
+"""
+def bfs():
+    ans = []
+    dq = deque()
+    dq.appendleft([0,0,0])
+
+    dx = [1,-1,0,0]
+    dy = [0,0,1,-1]
+
+    while(dq):
+        pop = dq.pop()
+        x = pop[0]
+        y = pop[1]
+        cnt = pop[2]
+
+        #print(pop)
+        if x == n-1 and y == m-1:
+            ans.append(cnt)
+
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if 0 <= nx < n and 0 <= ny < m:
+                if visited[nx][ny] == -1:
+                    # 방문한적이 없다면
+                    # 그 칸의 카운트 visited에 저장해주기
+                    if matrix[nx][ny] == 1:
+                        dq.appendleft([nx,ny,cnt+1])
+                        visited[nx][ny] = cnt+1
+                    else:
+                        dq.appendleft([nx,ny,cnt])
+                        visited[nx][ny] = cnt
+                else:
+                    # 방문한적이 있다면
+                    # 전에 방문한 값의 cnt 값이 현재꺼에 기반한 cnt보다 보다 작다면? -> 그 좌표에 또 방문할 필요가 없음
+                    # 전에 방문한 값의 cnt 값이 현재꺼에 기반한 cnt보다 보다 크다면? -> 그 좌표에 또 방문해서 갱신 필요
+
+                    if matrix[nx][ny] == 1 and visited[nx][ny] > cnt+1:
+                        dq.appendleft([nx,ny,cnt+1])
+                        visited[nx][ny] = cnt + 1
+                    elif matrix[nx][ny] == 0 and visited[nx][ny] > cnt:
+                        dq.appendleft([nx, ny, cnt])
+                        visited[nx][ny] = cnt
+
+    return ans
+m,n = map(int,sys.stdin.readline().split())
+matrix = []
+for i in range(n):
+    matrix.append(list(map(int,sys.stdin.readline().strip())))
+
+visited = [[-1 for _ in range(m)] for _ in range(n)]
+print(min(bfs()))
