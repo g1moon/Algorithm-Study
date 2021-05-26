@@ -1,0 +1,38 @@
+#!/usr/bin/python3
+
+"""
+11054. 가장 긴 바이토닉 부분 수열
+dp
+125552kb, 156ms
+
+올라가는 경우 내려가는 경우 모두 따져주되 한번 내려가는 경우일 때는 다시 올라올 수 없음을 유의하기
+"""
+import sys
+
+n = int(sys.stdin.readline())
+m = list(map(int,sys.stdin.readline().strip().split()))
+
+# 내려가게된다면 다시 올라올 수 없음 = 따라서 이후부터는 dp2와 비교
+# 마지막까지 쭈욱 봐주고 가장 길이 긴거 출력하기
+
+dp = [1 for _ in range(n)]
+dp2 = [1 for _ in range(n)]
+for i in range(1,n):
+    c = m[i]
+    for j in range(i):
+        # 올라가는 경우: 지금까지 올라온 것들 중에 최대길이 값
+        if m[j] < c:
+            if dp[i] < dp[j] + 1:
+                dp[i] = dp[j] + 1
+
+        # 내려가는 경우
+        if m[j] > c:
+            # 최초 한 번: 올라가는 직전값들 중에(dp) 가장 큰 값 선택해서 누적
+            if dp2[i] < dp[j] + 1:
+                dp2[i] = dp[j] + 1
+
+            # 두번째부터는 내려가는 수열인 dp2와 비교
+            if dp2[i] < dp2[j] + 1:
+                dp2[i] = dp2[j] + 1
+# print(dp,dp2)
+print(max(max(dp),max(dp2)))
